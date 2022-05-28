@@ -163,7 +163,7 @@ export default function PostJob() {
               <TextField
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                id="outlined-textarea"
+                id="job_title"
                 label="Job Title *"
                 placeholder="Write a title that appropriately describes this job"
                 multiline
@@ -175,7 +175,7 @@ export default function PostJob() {
             <Grid item xs={12} sm={12}>
               <Autocomplete
                 multiple
-                id="tags-standard"
+                id="location_city"
                 options={city}
                 value={selectedCity}
                 onChange={(e, value) => setSelectedCity(value)}
@@ -194,12 +194,12 @@ export default function PostJob() {
           <Grid container spacing={2} style={{ marginTop: "0rem" }}>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth variant="standard" sx={{ minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">
+                <InputLabel id="min_year_exp">
                   Min Years of Experience *
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="min_year_exp"
+                  id="min_year_exp_dropdown"
                   value={minExp}
                   label="Min Years of Experience *"
                   onChange={(e) => setMinExp(e.target.value)}
@@ -216,12 +216,12 @@ export default function PostJob() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth variant="standard" sx={{ minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">
+                <InputLabel id="max_year_exp">
                   Max Years of Experience *
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="max_year_exp"
+                  id="max_year_exp_dropdown"
                   value={maxExp}
                   label="Max Years of Experience *"
                   onChange={(e) => setMaxExp(e.target.value)}
@@ -242,7 +242,7 @@ export default function PostJob() {
               <TextField
                 value={jobDesciption}
                 onChange={(e) => setJobDesciption(e.target.value)}
-                id="filled-multiline-static"
+                id="job_description"
                 label="Job Description *"
                 placeholder="Describe the roles and responsibilities, skills required for the job and help candidates understand the role better"
                 multiline
@@ -259,12 +259,12 @@ export default function PostJob() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth variant="standard" sx={{ minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">
+                <InputLabel id="category">
                   Category *
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="category"
+                  id="category_dropdown"
                   value={category}
                   label="Category *"
                   onChange={(e) => setCategory(e.target.value)}
@@ -294,12 +294,12 @@ export default function PostJob() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth variant="standard" sx={{ minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">
+                <InputLabel id="functional_area">
                   Functional Area *
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="functional_area"
+                  id="functional_area_dropdown"
                   value={functionArea}
                   label="Functional Area *"
                   onChange={(e) => setFunctionalArea(e.target.value)}
@@ -324,12 +324,12 @@ export default function PostJob() {
           <Grid container spacing={2} style={{ marginTop: "0rem" }}>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth variant="standard" sx={{ minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">
+                <InputLabel id="min_grad_year">
                   Min Graduating Year *
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="min_grad_year"
+                  id="min_grad_year_dropdown"
                   value={minGradYear}
                   label="Min Graduating Year *"
                   onChange={(e) => setMinGradYear(e.target.value)}
@@ -347,12 +347,12 @@ export default function PostJob() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth variant="standard" sx={{ minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">
+                <InputLabel id="max_grad_year">
                   Max Graduating Year *
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="min_grad_year"
+                  id="min_grad_year_dropdown"
                   value={maxGradYear}
                   label="Max Graduating Year *"
                   onChange={(e) => setMaxGradYear(e.target.value)}
