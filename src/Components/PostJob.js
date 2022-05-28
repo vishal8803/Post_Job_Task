@@ -11,11 +11,14 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
 
 import Paper from "@mui/material/Paper";
 
 export default function PostJob() {
   const [city, setCity] = useState([]);
+  const [title, setTitle] = useState("");
+  const [jobDesciption, setJobDesciption] = useState("");
   const [selectedCity, setSelectedCity] = useState([]);
   const [minExp, setMinExp] = useState(0);
   const [maxExp, setMaxExp] = useState("");
@@ -24,6 +27,8 @@ export default function PostJob() {
   const [minGradYear, setMinGradYear] = useState("");
   const [maxGradYear, setMaxGradYear] = useState("");
   const [tagString, setTagString] = useState("");
+  const [error, setError] = useState("");
+  const [errorState, setErrorState] = useState("");
 
   const temp = [1, 2, 3, 4, 5, 6, 7, 8];
   const temp2 = [1, 2, 3, 4];
@@ -44,11 +49,99 @@ export default function PostJob() {
     setCity(result.data);
   };
 
-  const postJob = () => {};
+  const setAllFieldsBlank = () => {
+    setTitle("");
+    setCategory("");
+    setSelectedCity([]);
+    setFunctionalArea("");
+    setJobDesciption("");
+    setMinExp(0);
+    setMaxExp("");
+    setMinGradYear("");
+    setMaxGradYear("");
+    setTagString("");
+  };
+
+  const handleCancel = () => {
+    setAllFieldsBlank();
+    setErrorState("success");
+    setError("Cancelled Job Posting");
+    setTimeout(() => {
+      setError("");
+      setErrorState("");
+    }, 2000);
+  };
+
+  const postJob = () => {
+    if (
+      title == "" ||
+      jobDesciption == "" ||
+      selectedCity == [] ||
+      maxExp == "" ||
+      category == "" ||
+      functionArea == "" ||
+      minGradYear == "" ||
+      maxGradYear == "" ||
+      tagString == ""
+    ) {
+      setErrorState("error");
+      setError("Please Enter All Details");
+
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+      return;
+    }
+    let tags = tagString;
+    tags = tags.trim();
+    let tagsArr = tags.split(",");
+    tagsArr = tagsArr.map((value) => {
+      return value.trim();
+    });
+
+    let body = {
+      jobTitle: title,
+      location: selectedCity,
+      minYearExperience: minExp,
+      maxYearExperience: maxExp,
+      jobDescription: jobDesciption,
+      category: category,
+      functionalArea: functionArea,
+      minGraduatingYear: minGradYear,
+      maxGraduatingYear: maxGradYear,
+      tags: tagsArr,
+    };
+
+    // let res = fetch('http://localhost:8001/v1jobs/job',{
+    //     method: 'POST',
+    //     headers: { "Content-Type": "application/json;charset=utf-8" },
+    //     body: JSON.stringify(body),
+    // })
+
+    console.log(body);
+    setErrorState("success");
+    setError("Job Posted Successfully");
+    setTimeout(() => {
+      setError("");
+    }, 2000);
+
+    setAllFieldsBlank();
+  };
 
   useEffect(() => {
     fetchAllCities();
   }, []);
+
+  const postJobAndAddAnotherJob = () => {
+    postJob();
+    //   if(errorState != 'error'){
+    //     setError('Now you can add another Job');
+    //     setErrorState('info');
+    //     setTimeout(() => {
+    //         setError("");
+    //     }, 2000);
+    //   }
+  };
 
   return (
     <>
@@ -63,10 +156,13 @@ export default function PostJob() {
           <Typography variant="h5" color="#45b4b7" gutterBottom>
             Basic Details
           </Typography>
+          {error != "" && <Alert severity={errorState}>{error}</Alert>}
           <hr></hr>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <TextField
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 id="outlined-textarea"
                 label="Job Title *"
                 placeholder="Write a title that appropriately describes this job"
@@ -108,13 +204,13 @@ export default function PostJob() {
                   label="Min Years of Experience *"
                   onChange={(e) => setMinExp(e.target.value)}
                 >
-                    {temp.map((value,idx) => {
-                      return (
-                        <MenuItem key={value-1} value={idx}>
-                          {idx}
-                        </MenuItem>
-                      );
-                    })}
+                  {temp.map((value, idx) => {
+                    return (
+                      <MenuItem key={value - 1} value={idx}>
+                        {idx}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
             </Grid>
@@ -144,6 +240,8 @@ export default function PostJob() {
 
             <Grid item xs={12} sm={12}>
               <TextField
+                value={jobDesciption}
+                onChange={(e) => setJobDesciption(e.target.value)}
                 id="filled-multiline-static"
                 label="Job Description *"
                 placeholder="Describe the roles and responsibilities, skills required for the job and help candidates understand the role better"
@@ -206,10 +304,18 @@ export default function PostJob() {
                   label="Functional Area *"
                   onChange={(e) => setFunctionalArea(e.target.value)}
                 >
-                  <MenuItem value={"Full Time"}>Full Time</MenuItem>
-                  <MenuItem value={"Part Time"}>Part Time</MenuItem>
-                  <MenuItem value={"Temporary"}>Temporary</MenuItem>
-                  <MenuItem value={"Intern"}>Intern</MenuItem>
+                  <MenuItem key="Full Time" value={"Full Time"}>
+                    Full Time
+                  </MenuItem>
+                  <MenuItem key="Part Time" value={"Part Time"}>
+                    Part Time
+                  </MenuItem>
+                  <MenuItem key="Temporary" value={"Temporary"}>
+                    Temporary
+                  </MenuItem>
+                  <MenuItem key="Intern" value={"Intern"}>
+                    Intern
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -254,8 +360,11 @@ export default function PostJob() {
                   {minGradYear != "" &&
                     temp2.map((value) => {
                       return (
-                        <MenuItem value={value + minGradYear}>
-                          {value + minGradYear}
+                        <MenuItem
+                          key={value + minGradYear}
+                          value={value + minGradYear - 1}
+                        >
+                          {value + minGradYear - 1}
                         </MenuItem>
                       );
                     })}
@@ -278,16 +387,20 @@ export default function PostJob() {
               <Button
                 variant="contained"
                 style={{ backgroundColor: "#1f8f75" }}
+                onClick={() => postJob()}
               >
                 Post Job
               </Button>
               <Button
                 variant="outlined"
                 style={{ color: "#1f8f75", borderColor: "#1f8f75" }}
+                onClick={() => postJobAndAddAnotherJob()}
               >
                 Post and add Another Job
               </Button>
-              <Button variant="text">Cancel</Button>
+              <Button variant="text" onClick={() => handleCancel()}>
+                Cancel
+              </Button>
             </Stack>
           </div>
         </Paper>
